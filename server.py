@@ -3,16 +3,16 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-# Daten aus Excel-Datei lesen
+# read data from excel
 data = pd.read_excel('TeslaNumbers.xlsx')
 
-# Konvertieren Sie die Daten in ein JSON-Format
-quartalszahlen = data.to_dict()
+# convert data to json format
+earnings = data.to_dict()
 
-# Route für Quartalsdaten
-@app.route('/quartalszahlen', methods=['GET'])
-def get_quartalszahlen():
-    return jsonify(quartalszahlen)
+# route for data
+@app.route('/tesla_earnings', methods=['GET'])
+def get_data():
+    return jsonify(earnings)
 
 if __name__ == '__main__':
     # Listen on all network interfaces
