@@ -3,17 +3,33 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-# read data from excel
-data = pd.read_excel('TeslaNumbers.xlsx')
-# convert data to json format
-earnings = data.to_dict()
+# Funktion zum Lesen der Daten aus einer Excel-Datei und Konvertieren in JSON
+def read_excel_to_json(filename):
+    data = pd.read_excel(filename)
+    return data.to_dict()
 
-# route for data
+# Route für Tesla Earnings
 @app.route('/tesla_earnings', methods=['GET'])
-def get_data():
-    return jsonify(earnings)
+def get_tesla_earnings():
+    data = read_excel_to_json('TeslaNumbers.xlsx')
+    return jsonify(data)
+
+# Neue Route für wöchentliche Verkäufe in China
+@app.route('/china_weekly_sales/2022', methods=['GET'])
+def get_china_sales_2022():
+    data = read_excel_to_json('TeslaChinaInsuredUnits2022.xlsx')
+    return jsonify(data)
+# Neue Route für wöchentliche Verkäufe in China
+@app.route('/china_weekly_sales/2023', methods=['GET'])
+def get_china_sales_2023():
+    data = read_excel_to_json('TeslaChinaInsuredUnits2023.xlsx')
+    return jsonify(data)
+# Neue Route für wöchentliche Verkäufe in China
+@app.route('/china_weekly_sales/2024', methods=['GET'])
+def get_china_sales_2024():
+    data = read_excel_to_json('TeslaChinaInsuredUnits2024.xlsx')
+    return jsonify(data)
 
 if __name__ == '__main__':
     # Listen on all network interfaces
     app.run(host='0.0.0.0', port=5001, debug=True)
-    
